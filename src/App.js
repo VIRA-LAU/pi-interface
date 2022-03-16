@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import Button from '@mui/material/Button';
+import {Joystick} from "react-joystick-component";
 
 export const FORWARD = "FORWARD";
 export const BACKWARD = "BACKWARD";
@@ -8,38 +9,161 @@ export const RIGHT = "RIGHT";
 
 
 const Cam = () => {
-    const [status,setStatus] = useState("")
-    const intervalRef = useRef(null)
 
-    useEffect(() => {
-        console.log(status)
-        switch (status){
+    const intervalRefLeft = useRef(null)
+    const intervalRefRight = useRef(null)
+
+    const [leftJoystickDirection,setLeftJoystickDirection] = useState(
+        {
+            "type": "stop",
+            "x": null,
+            "y": null,
+            "direction": null,
+            "distance": null
+        }
+    )
+    const [rightJoystickDirection,setRightJoystickDirection] = useState(
+        {
+            "type": "stop",
+            "x": null,
+            "y": null,
+            "direction": null,
+            "distance": null
+        }
+    )
+
+    useEffect(() =>{
+        const {type,x,y,direction,distance} = leftJoystickDirection
+        clearInterval(intervalRefLeft.current)
+        switch (direction){
             case FORWARD:
-                intervalRef.current = setInterval(()=>{
-                    console.log("Send Forward Request")
+                console.log(`Send Forward Request for left joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                intervalRefLeft.current = setInterval(()=>{
+                    console.log(`Send Forward Request for left joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
                 },500);
                 break;
             case LEFT:
-                intervalRef.current = setInterval(()=>{
-                    console.log("Send Left Request")
+                console.log(`Send Left Request for left joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                intervalRefLeft.current = setInterval(()=>{
+                    console.log(`Send Left Request for left joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
                 },500);
                 break;
             case RIGHT:
-                intervalRef.current = setInterval(()=>{
-                    console.log("Send right Request")
+                console.log(`Send Right Request for left joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                intervalRefLeft.current = setInterval(()=>{
+                    console.log(`Send Right Request for left joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
                 },500);
                 break;
             case BACKWARD:
-                intervalRef.current = setInterval(()=>{
-                    console.log("Send backward Request")
+                console.log(`Send Backward Request for left joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                intervalRefLeft.current = setInterval(()=>{
+                    console.log(`Send Backward Request for left joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
                 },500);
                 break;
             default:
-                clearInterval(intervalRef.current)
-                intervalRef.current = null
+                clearInterval(intervalRefLeft.current)
+                intervalRefLeft.current = null
 
         }
-    },[status])
+    },[leftJoystickDirection])
+    useEffect(() =>{
+        const {type,x,y,direction,distance} = rightJoystickDirection
+        clearInterval(intervalRefRight.current)
+        switch (direction){
+            case FORWARD:
+                console.log(`Send Forward Request for right joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                intervalRefRight.current = setInterval(()=>{
+                    console.log(`Send Forward Request for right joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                },500);
+                break;
+            case LEFT:
+                console.log(`Send Left Request for right joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                intervalRefRight.current = setInterval(()=>{
+                    console.log(`Send Left Request for right joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                },500);
+                break;
+            case RIGHT:
+                console.log(`Send Right Request for right joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                intervalRefRight.current = setInterval(()=>{
+                    console.log(`Send Right Request for right joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                },500);
+                break;
+            case BACKWARD:
+                console.log(`Send Backward Request for right joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                intervalRefRight.current = setInterval(()=>{
+                    console.log(`Send Backward Request for right joystick 
+                     y ratio: ${y/50}
+                     x ratio: ${x/50}
+                     `)
+                },500);
+                break;
+            default:
+                clearInterval(intervalRefRight.current)
+                intervalRefRight.current = null
+
+        }
+    },[rightJoystickDirection])
+
+
+    const handleMoveLeft = (e)=> {
+        setLeftJoystickDirection(e)
+
+    }
+    const handleStopLeft = (e)=> {
+        setLeftJoystickDirection(e)
+    }
+
+    const handleMoveRight = (e)=> {
+        setRightJoystickDirection(e)
+    }
+    const handleStopRight = (e)=> {
+        setRightJoystickDirection(e)
+    }
 
     return (
         <div>
@@ -50,47 +174,15 @@ const Cam = () => {
                 />
             </div>
             <div style={{display: "flex", justifyContent: "center"}}>Control</div>
+
             <div style={{
                 display:'flex',
-                placeContent:'center'
+                padding:'0 10%',
+                placeContent:'space-around'
             }}>
-                <div>
-                    <div style={{
-                        display:'flex',
-                        placeContent:'center'
-                    }}>
-                        <Button variant="text"
-                                onMouseDown={()=> setStatus(FORWARD)}
-                                onMouseUp={() => setStatus("")}
-                                onTouchStart={()=> setStatus(FORWARD)}
-                                onTouchEnd={() => setStatus("")}
-                                onTouchCancel={() => setStatus("")}
-                        >F</Button>
-                    </div>
-                    <div style={{display:'flex'}}>
-                        <Button variant="text"
-                                onMouseDown={()=> setStatus(LEFT)}
-                                onMouseUp={() => setStatus("")}
-                                onTouchStart={()=> setStatus(LEFT)}
-                                onTouchEnd={() => setStatus("")}
-                                onTouchCancel={() => setStatus("")}
-                        >L</Button>
-                        <Button variant="text"
-                                onMouseDown={()=> setStatus(BACKWARD)}
-                                onMouseUp={() => setStatus("")}
-                                onTouchStart={()=> setStatus(BACKWARD)}
-                                onTouchEnd={() => setStatus("")}
-                                onTouchCancel={() => setStatus("")}
-                        >B</Button>
-                        <Button variant="text"
-                                onMouseDown={()=> setStatus(RIGHT)}
-                                onMouseUp={() => setStatus("")}
-                                onTouchStart={()=> setStatus(RIGHT)}
-                                onTouchEnd={() => setStatus("")}
-                                onTouchCancel={() => setStatus("")}
-                        >R</Button>
-                    </div>
-                </div>
+                <Joystick size={100}  throttle={300} move={handleMoveLeft} stop={handleMoveLeft}></Joystick>
+                <Joystick size={100 }  throttle={300} move={handleMoveRight} stop={handleMoveRight}></Joystick>
+
             </div>
         </div>
     );
