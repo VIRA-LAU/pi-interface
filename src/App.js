@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import Button from '@mui/material/Button';
 import {Joystick} from "react-joystick-component";
+import axios from "axios";
 
 export const FORWARD = "FORWARD";
 export const BACKWARD = "BACKWARD";
@@ -13,7 +14,7 @@ const Cam = () => {
     const intervalRefLeft = useRef(null)
     const intervalRefRight = useRef(null)
 
-    const [leftJoystickDirection,setLeftJoystickDirection] = useState(
+    const [leftJoystickDirection, setLeftJoystickDirection] = useState(
         {
             "type": "stop",
             "x": null,
@@ -22,7 +23,7 @@ const Cam = () => {
             "distance": null
         }
     )
-    const [rightJoystickDirection,setRightJoystickDirection] = useState(
+    const [rightJoystickDirection, setRightJoystickDirection] = useState(
         {
             "type": "stop",
             "x": null,
@@ -32,136 +33,152 @@ const Cam = () => {
         }
     )
 
-    useEffect(() =>{
-        const {type,x,y,direction,distance} = leftJoystickDirection
+    useEffect(() => {
+        const {type, x, y, direction, distance} = leftJoystickDirection
         clearInterval(intervalRefLeft.current)
-        switch (direction){
+        switch (direction) {
             case FORWARD:
                 console.log(`Send Forward Request for left joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                intervalRefLeft.current = setInterval(()=>{
+                handle_left_joystick(x / 50, y / 50)
+                intervalRefLeft.current = setInterval(() => {
                     console.log(`Send Forward Request for left joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                },500);
+                    handle_left_joystick(x / 50, y / 50)
+                }, 500);
                 break;
             case LEFT:
                 console.log(`Send Left Request for left joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                intervalRefLeft.current = setInterval(()=>{
+                handle_left_joystick(x / 50, y / 50)
+                intervalRefLeft.current = setInterval(() => {
                     console.log(`Send Left Request for left joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                },500);
+                    handle_left_joystick(x / 50, y / 50)
+                }, 500);
                 break;
             case RIGHT:
                 console.log(`Send Right Request for left joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                intervalRefLeft.current = setInterval(()=>{
+                handle_left_joystick(x / 50, y / 50)
+                intervalRefLeft.current = setInterval(() => {
                     console.log(`Send Right Request for left joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                },500);
+                    handle_left_joystick(x / 50, y / 50)
+                }, 500);
                 break;
             case BACKWARD:
                 console.log(`Send Backward Request for left joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                intervalRefLeft.current = setInterval(()=>{
+                handle_left_joystick(x / 50, y / 50)
+                intervalRefLeft.current = setInterval(() => {
                     console.log(`Send Backward Request for left joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                },500);
+                    handle_left_joystick(x / 50, y / 50)
+                }, 500);
                 break;
             default:
                 clearInterval(intervalRefLeft.current)
                 intervalRefLeft.current = null
 
         }
-    },[leftJoystickDirection])
-    useEffect(() =>{
-        const {type,x,y,direction,distance} = rightJoystickDirection
+    }, [leftJoystickDirection])
+    useEffect(() => {
+        const {type, x, y, direction, distance} = rightJoystickDirection
         clearInterval(intervalRefRight.current)
-        switch (direction){
+        switch (direction) {
             case FORWARD:
                 console.log(`Send Forward Request for right joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                intervalRefRight.current = setInterval(()=>{
+                handle_right_joystick(x / 50, y / 50)
+                intervalRefRight.current = setInterval(() => {
                     console.log(`Send Forward Request for right joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                },500);
+                    handle_right_joystick(x / 50, y / 50)
+                }, 500);
                 break;
             case LEFT:
                 console.log(`Send Left Request for right joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                intervalRefRight.current = setInterval(()=>{
+                handle_right_joystick(x / 50, y / 50)
+                intervalRefRight.current = setInterval(() => {
                     console.log(`Send Left Request for right joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                },500);
+                    handle_right_joystick(x / 50, y / 50)
+                }, 500);
                 break;
             case RIGHT:
                 console.log(`Send Right Request for right joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                intervalRefRight.current = setInterval(()=>{
+                handle_right_joystick(x / 50, y / 50)
+                intervalRefRight.current = setInterval(() => {
                     console.log(`Send Right Request for right joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                },500);
+                    handle_right_joystick(x / 50, y / 50)
+                }, 500);
                 break;
             case BACKWARD:
                 console.log(`Send Backward Request for right joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                intervalRefRight.current = setInterval(()=>{
+                handle_right_joystick(x / 50, y / 50)
+                intervalRefRight.current = setInterval(() => {
                     console.log(`Send Backward Request for right joystick 
-                     y ratio: ${y/50}
-                     x ratio: ${x/50}
+                     y ratio: ${y / 50}
+                     x ratio: ${x / 50}
                      `)
-                },500);
+                    handle_right_joystick(x / 50, y / 50)
+                }, 500);
                 break;
             default:
                 clearInterval(intervalRefRight.current)
                 intervalRefRight.current = null
 
         }
-    },[rightJoystickDirection])
+    }, [rightJoystickDirection])
 
 
-    const handleMoveLeft = (e)=> {
+    const handleMoveLeft = (e) => {
         setLeftJoystickDirection(e)
 
     }
-    const handleStopLeft = (e)=> {
+    const handleStopLeft = (e) => {
         setLeftJoystickDirection(e)
     }
 
-    const handleMoveRight = (e)=> {
+    const handleMoveRight = (e) => {
         setRightJoystickDirection(e)
     }
-    const handleStopRight = (e)=> {
+    const handleStopRight = (e) => {
         setRightJoystickDirection(e)
     }
 
@@ -176,15 +193,56 @@ const Cam = () => {
             <div style={{display: "flex", justifyContent: "center"}}>Control</div>
 
             <div style={{
-                display:'flex',
-                padding:'0 10%',
-                placeContent:'space-around'
+                display: 'flex',
+                padding: '0 10%',
+                placeContent: 'space-around'
             }}>
-                <Joystick size={100}  throttle={300} move={handleMoveLeft} stop={handleMoveLeft}></Joystick>
-                <Joystick size={100 }  throttle={300} move={handleMoveRight} stop={handleMoveRight}></Joystick>
+                <Joystick size={100} throttle={300} move={handleMoveLeft} stop={handleMoveLeft}></Joystick>
+                <Joystick size={100} throttle={300} move={handleMoveRight} stop={handleMoveRight}></Joystick>
 
             </div>
         </div>
     );
 };
+
+function handle_left_joystick(x, y) {
+
+    var myParams={X:x,
+        Y:y}
+
+    if (x != null) {
+        axios.post('http://localhost:5000/left_joystick', myParams)
+            .then(function (response) {
+                console.log(response);
+                //Perform action based on response
+            })
+            .catch(function (error) {
+                console.log(error);
+                //Perform action based on error
+            });
+    } else {
+        alert("The search query cannot be empty")
+    }
+}
+
+function handle_right_joystick(x, y) {
+
+    var myParams={X:x,
+        Y:y}
+
+    if (x != null) {
+        axios.post('http://localhost:5000/right_joystick', myParams)
+            .then(function (response) {
+                console.log(response);
+                //Perform action based on response
+            })
+            .catch(function (error) {
+                console.log(error);
+                //Perform action based on error
+            });
+    } else {
+        alert("The search query cannot be empty")
+    }
+}
+
 export default Cam;
