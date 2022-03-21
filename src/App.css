@@ -1,38 +1,110 @@
-.App {
-  text-align: center;
+.title {
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    font-family: Calibri, sans-serif;
+    padding: 10px;
+    margin: 0 0 10px;
+    background-color: lightcoral;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.feed {
+    display: table;
+    vertical-align: middle;
+    margin: auto auto 20px;
+    padding: 0 10px 10px;
+    background-color: whitesmoke;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 10px 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.circle {
+    display: block;
+    position: center;
+    margin: auto;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.feed h2 {
+    height: fit-content;
+    font-size: large;
+    text-align: center;
+    font-style: normal;
+    font-family: Calibri, sans-serif;
 }
 
-.App-link {
-  color: #61dafb;
+.feed img {
+    alignment: bottom;
+    width: 320px;
+    height: fit-content;
+    margin: auto;
+    display: block;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: darkgray;
+    border-width: thin;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.joystick {
+    height: 200px;
+}
+
+.controls td{
+    width: 110px;
+}
+
+.controls tr td {
+    height: auto;
+}
+
+.controls {
+    border-collapse: collapse;
+    margin: auto;
+    border-spacing: 10px;
+    text-align: center;
+    background-color: whitesmoke;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 10px 20px;
+    font-family: Calibri sans-serif;
+    font-weight: bold;
+    border-color: black;
+}
+
+.control {
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+}
+
+
+.start {
+    text-align: center;
+    color: black;
+    background-color: #04AA6D;
+    border-style: inset;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: large;
+    padding: 10px;
+}
+
+.stop {
+    background-color: red;
+    border-radius: 10px;
+    border-style: inset;
+    font-weight: bold;
+    font-size: large;
+    padding: 10px;
+}
+
+.start:active {
+    background-color: #3e8e41;
+    transform: translateY(1px);
+}
+
+.stop:active {
+    background-color: #8e3e3e;
+    transform: translateY(1px);
 }
