@@ -3,7 +3,8 @@ import React from "react";
 
 const Video = (props) => {
     return (
-        <div className='feed'>
+        <div className='video_feed'>
+            {/*<circle className='recording_circle'/>*/}
             <h2>Rover Feed</h2>
             <img
                 src={props.source}
@@ -11,6 +12,5 @@ const Video = (props) => {
             />
         </div>);
 }
-
 
 export default Video;

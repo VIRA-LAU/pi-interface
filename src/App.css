@@ -8,7 +8,7 @@
     background-color: lightcoral;
 }
 
-.feed {
+.video_feed {
     display: table;
     vertical-align: middle;
     margin: auto auto 20px;
@@ -18,7 +18,7 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0 10px 20px;
 }
 
-.circle {
+.recording_circle {
     display: block;
     position: center;
     margin: auto;
@@ -28,18 +28,15 @@
     border-radius: 50%;
 }
 
-.feed h2 {
-    height: fit-content;
+.video_feed h2 {
     font-size: large;
     text-align: center;
     font-style: normal;
     font-family: Calibri, sans-serif;
 }
 
-.feed img {
-    alignment: bottom;
+.video_feed img {
     width: 320px;
-    height: fit-content;
     margin: auto;
     display: block;
     border-style: solid;
@@ -48,11 +45,25 @@
     border-width: thin;
 }
 
-.joystick {
-    height: 200px;
+.controls {
+    margin: auto;
+    border-spacing: 10px;
+    border-collapse: collapse;
+    border-radius: 20px;
+    border-color: black;
+    text-align: center;
+    font-weight: bold;
+    font-family: Calibri sans-serif;
+    background-color: whitesmoke;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 10px 20px;
 }
 
-.controls td{
+.categories {
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+}
+
+.controls td {
     width: 110px;
 }
 
@@ -60,38 +71,25 @@
     height: auto;
 }
 
-.controls {
-    border-collapse: collapse;
-    margin: auto;
-    border-spacing: 10px;
-    text-align: center;
-    background-color: whitesmoke;
-    border-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0 10px 20px;
-    font-family: Calibri sans-serif;
-    font-weight: bold;
-    border-color: black;
-}
-
-.control {
-    border-top: 1px black solid;
-    border-bottom: 1px black solid;
+.joystick tr {
+    height: 50px;
 }
 
 
-.start {
-    text-align: center;
-    color: black;
+.recording_start {
     background-color: #04AA6D;
-    border-style: inset;
+    color: black;
     border-radius: 10px;
+    border-style: inset;
     font-weight: bold;
+    text-align: center;
     font-size: large;
     padding: 10px;
 }
 
-.stop {
+.recording_stop {
     background-color: red;
+    color: black;
     border-radius: 10px;
     border-style: inset;
     font-weight: bold;
@@ -99,12 +97,12 @@
     padding: 10px;
 }
 
-.start:active {
+.recording_start:active {
     background-color: #3e8e41;
     transform: translateY(1px);
 }
 
-.stop:active {
+.recording_stop:active {
     background-color: #8e3e3e;
     transform: translateY(1px);
 }

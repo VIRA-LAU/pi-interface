@@ -1,6 +1,8 @@
 from flask import Flask, render_template, Response, request, jsonify
 from flask_cors import cross_origin
-from camera import VideoCamera
+import camera
+import to_endpoint
+
 # from motor import Motors
 # from servo import Servo
 
@@ -9,8 +11,9 @@ from camera import VideoCamera
 # servo_y = Servo(15, 162, 1.8, 176.4)
 time = 0.8
 angle_change = 5
-
 app = Flask(__name__)
+to_endpoint.Camera()
+m = to_endpoint.main(upload=False, delete=True)
 
 
 @app.route('/')
@@ -18,16 +21,19 @@ def index():
     return render_template('index.js')
 
 
-def gen(camera):
+def gen():
     while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        try:
+            frame = camera.get_frame()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        except:
+            pass
 
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(VideoCamera()),
+    return Response(gen(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
@@ -77,6 +83,18 @@ def camera_control():
     #     # servo_x.increment_angle(angle_change)
     else:
         print('Nothing')
+    return jsonify(data)
+
+
+@app.route('/record', methods=['POST'])
+@cross_origin()
+def record():
+    data = request.get_json()['record']
+    print(data)
+    if data:
+        m.run()
+    else:
+        m.terminate()
     return jsonify(data)
 
 
