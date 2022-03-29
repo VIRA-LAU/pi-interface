@@ -17,18 +17,43 @@
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.35) 0 10px 20px;
 }
+.video_feed div{
+    display: flex;
+}
 
 .recording_circle {
+    position: absolute;
     display: block;
-    position: center;
-    margin: auto;
-    width: 15px;
-    height: 15px;
+    margin: 5px 5px 5px 5px;
+    width: 10px;
+    height: 10px;
     background-color: red;
     border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(252, 86, 86, 0.7);
+    transform: scale(1);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(252, 86, 86, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
 }
 
 .video_feed h2 {
+    display: block;
+    margin: auto;
     font-size: large;
     text-align: center;
     font-style: normal;
@@ -43,6 +68,11 @@
     border-radius: 10px;
     border-color: darkgray;
     border-width: thin;
+}
+
+.video_feed button {
+    margin: auto;
+    display: block;
 }
 
 .controls {
@@ -76,7 +106,7 @@
 }
 
 
-.recording_start {
+.button_true {
     background-color: #04AA6D;
     color: black;
     border-radius: 10px;
@@ -87,7 +117,7 @@
     padding: 10px;
 }
 
-.recording_stop {
+.button_false {
     background-color: red;
     color: black;
     border-radius: 10px;
@@ -97,12 +127,12 @@
     padding: 10px;
 }
 
-.recording_start:active {
+.button_true:active {
     background-color: #3e8e41;
     transform: translateY(1px);
 }
 
-.recording_stop:active {
+.button_false:active {
     background-color: #8e3e3e;
     transform: translateY(1px);
 }

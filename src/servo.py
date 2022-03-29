@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+import pigpio
 import time
 
 
@@ -17,13 +17,12 @@ class Servo:
         self.a = 10
         self.b = 2
         self.sig = sig
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        GPIO.setup(sig, GPIO.OUT)
-        self.pwm = GPIO.PWM(sig, 50)
-        self.pwm.start(0)
+        self.pwm = pigpio.pi()
+        self.pwm.set_mode(sig, pigpio.OUTPUT)
+        self.pwm.set_PWM_frequency(sig, 50)
+        # self.pwm.start(0)
         self.set_angle(self.angle)
-        time.sleep(2)
+        time.sleep(1)
 
     def set_angle(self, angle: float):
         """
@@ -32,8 +31,9 @@ class Servo:
         """
         angle = self.validate_angle(angle)
         self.angle = angle
-        duty = self.a / 180 * self.angle + self.b
-        self.pwm.ChangeDutyCycle(duty)
+        duty = self.angle * 11 + 500
+        # duty = self.a / 180 * self.angle + self.b
+        self.pwm.set_servo_pulsewidth(self.sig, duty)
         print("angle =", self.angle, "-> duty cycle =", duty)
         time.sleep(0.05)
 

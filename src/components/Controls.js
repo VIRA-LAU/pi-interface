@@ -1,5 +1,5 @@
 import React from "react";
-import Joystick from "./Joystick";
+import Joy from "./Joy";
 import Recording from "./Recording";
 
 
@@ -16,13 +16,13 @@ const Controls = () => {
                 </tr>
                 <tr className='joystick'>
                     <td>
-                        <Joystick name='left'/>
+                        <Joy name='left' forward='FORWARD' backward='BACKWARD' left='LEFT' right='RIGHT'/>
                     </td>
                     <td>
                         <Recording/>
                     </td>
                     <td>
-                        <Joystick name='right'/>
+                        <Joy name='right' forward='UP' backward='DOWN' left='LEFT' right='RIGHT'/>
                     </td>
                 </tr>
                 </tbody>

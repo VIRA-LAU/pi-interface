@@ -1,8 +1,11 @@
-import React, {useState} from "react";
+import React, {useContext} from "react";
 import axios from "axios";
 import {IP} from "../App";
+import RecContext from "./RecContext";
+
+
 const Recording = () => {
-     const [isRecording, setRecording]= useState(true)
+    const {isRecording, setRecording} = useContext(RecContext)
 
     const handleRecording = () => {
         if (isRecording) {
@@ -14,7 +17,7 @@ const Recording = () => {
         const params = {
             record: isRecording
         }
-        axios.post(IP+'record', params)
+        axios.post(IP + 'record', params)
             .then(function (response) {
                 console.log(response);
                 //Perform action based on response
@@ -24,8 +27,11 @@ const Recording = () => {
                 //Perform action based on error
             });
     }
-    return (<button className={isRecording ? 'recording_start': 'recording_stop'}
-                    onClick={handleRecording}>{isRecording ? 'Start': 'Stop' }</button>
+    return (
+        <div>
+            <button className={isRecording ? 'button_true' : 'button_false'}
+                    onClick={handleRecording}>{isRecording ? 'Start' : 'Stop'}</button>
+        </div>
     );
 }
 

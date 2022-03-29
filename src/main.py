@@ -1,19 +1,19 @@
 from flask import Flask, render_template, Response, request, jsonify
 from flask_cors import cross_origin
-import camera
 import to_endpoint
 
-# from motor import Motors
-# from servo import Servo
+from motor import Motors
+from servo import Servo
 
-# m = Motors(12, 13, 25, 1, 7, 8, 100)
-# servo_x = Servo(14, 72, 1.8, 176.4)
-# servo_y = Servo(15, 162, 1.8, 176.4)
+m = Motors(12, 13, 25, 1, 7, 8, 100)
+servo_x = Servo(14, 72, 1.8, 176.4)
+servo_y = Servo(15, 162, 1.8, 176.4)
 time = 0.8
 angle_change = 5
 app = Flask(__name__)
-to_endpoint.Camera()
-m = to_endpoint.main(upload=False, delete=True)
+camera = to_endpoint.Camera()
+camera.start()
+m = to_endpoint.main(upload=False, drive=True, delete=True)
 
 
 @app.route('/')
@@ -46,16 +46,16 @@ def rover_control():
     print('Rover:')
     if y > 0.5:
         print('\tMoving Forward')
-        # m.move_forward(t=time)
+        m.move_forward(t=time)
     elif y < -0.5:
         print('\tMoving Backward')
-        # m.move_backward(t=time)
+        m.move_backward(t=time)
     elif x > 0.5:
         print('\tTurning Right')
-        # m.turn_right(t=time)
+        m.turn_right(t=time)
     elif x < -0.5:
         print('\tTurning Left')
-        # m.turn_left(t=time)
+        m.turn_left(t=time)
     else:
         print('Nothing')
     return jsonify(data)
@@ -71,16 +71,16 @@ def camera_control():
     print('Camera:')
     if y > 0.5:
         print('\tMoving Up')
-    #     # servo_y.decrement_angle(angle_change)
+        servo_y.decrement_angle(angle_change)
     elif y < -0.5:
         print('\tMoving Down')
-    #     # servo_y.increment_angle(angle_change)
+        servo_y.increment_angle(angle_change)
     elif x > 0.5:
         print('\tMoving Right')
-    #     # servo_x.decrement_angle(angle_change)
+        servo_x.decrement_angle(angle_change)
     elif x < -0.5:
         print('\tMoving Left')
-    #     # servo_x.increment_angle(angle_change)
+        servo_x.increment_angle(angle_change)
     else:
         print('Nothing')
     return jsonify(data)
