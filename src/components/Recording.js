@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
-import axios from "axios";
-import {IP} from "../App";
+import {socket} from "../App";
 import RecContext from "./RecContext";
 
 
@@ -17,15 +16,8 @@ const Recording = () => {
         const params = {
             record: isRecording
         }
-        axios.post(IP + 'record', params)
-            .then(function (response) {
-                console.log(response);
-                //Perform action based on response
-            })
-            .catch(function (error) {
-                console.log(error);
-                //Perform action based on error
-            });
+        socket.emit("record", params)
+
     }
     return (
         <div>

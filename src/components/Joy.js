@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Joystick} from "react-joystick-component";
-import axios from "axios";
-import {IP} from "../App";
+import {socket} from "../App";
 
 const Joy = (props) => {
     const intervalRef = useRef(null)
@@ -26,17 +25,7 @@ const Joy = (props) => {
                 };
 
                 if (x != null) {
-                    axios.post(IP + props.name + '_joystick', myParams)
-                        .then(function (response) {
-                            console.log(response);
-                            //Perform action based on response
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                            //Perform action based on error
-                        });
-                } else {
-                    alert("The search query cannot be empty")
+                    socket.emit(props.name + "_joystick", myParams);
                 }
             }
             const {x, y, direction} = joystickDirection
@@ -60,7 +49,8 @@ const Joy = (props) => {
                 clearInterval(intervalRef.current)
                 intervalRef.current = null
             }
-        }, [props, joystickDirection]
+        },
+        [props, joystickDirection]
     )
     const handleDirection = () => {
         switch (joystickDirection.direction) {

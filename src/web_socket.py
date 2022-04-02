@@ -1,19 +1,23 @@
-from flask import Flask, render_template, Response, request, jsonify
-from flask_cors import cross_origin
-import to_endpoint
+from flask import Flask, render_template, jsonify, Response
+from flask_socketio import SocketIO
+from to_endpoint import Camera, ToEndpoint
 
 from motor import Motors
 from servo import Servo
+from ultrasonic import Ultrasonic
 
-m = Motors(12, 13, 25, 1, 7, 8, 100)
+motors = Motors(12, 13, 25, 1, 7, 8, 100)
 servo_x = Servo(14, 72, 1.8, 176.4)
 servo_y = Servo(15, 162, 1.8, 176.4)
-time = 0.8
-angle_change = 5
+ultra = Ultrasonic(23, 24)
+
+time = 0.1
+angle_change = 3
+
 app = Flask(__name__)
-camera = to_endpoint.Camera()
-camera.start()
-m = to_endpoint.main(upload=False, drive=True, delete=True)
+socket = SocketIO(app, cors_allowed_origins="*")
+camera = Camera()
+endpoint = ToEndpoint()
 
 
 @app.route('/')
@@ -21,10 +25,23 @@ def index():
     return render_template('index.js')
 
 
+@socket.on('connect')
+def connected():
+    print('Client connected to websocket')
+    return True
+
+
+@socket.on('disconnect')
+def connected():
+    print('Client disconnected from websocket')
+    return True
+
+
 def gen():
     while True:
         try:
             frame = camera.get_frame()
+            socket.sleep(0.01)
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         except:
@@ -37,34 +54,32 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/left_joystick', methods=['POST'])
-@cross_origin()
-def rover_control():
-    data = request.get_json()
+@socket.on('left_joystick')
+def rover_control(data):
     x = data['X']
     y = data['Y']
+    distance = ultra.get_dstance()
+    print('Distance = ' + str(distance))
     print('Rover:')
-    if y > 0.5:
+    if y > 0.5 and distance > 20:
         print('\tMoving Forward')
-        m.move_forward(t=time)
+        motors.move_forward(t=time)
     elif y < -0.5:
         print('\tMoving Backward')
-        m.move_backward(t=time)
+        motors.move_backward(t=time)
     elif x > 0.5:
         print('\tTurning Right')
-        m.turn_right(t=time)
+        motors.turn_right(t=time)
     elif x < -0.5:
         print('\tTurning Left')
-        m.turn_left(t=time)
+        motors.turn_left(t=time)
     else:
         print('Nothing')
     return jsonify(data)
 
 
-@app.route('/right_joystick', methods=['POST'])
-@cross_origin()
-def camera_control():
-    data = request.get_json()
+@socket.on('right_joystick')
+def camera_control(data):
     x = data['X']
     y = data['Y']
     # print(data)
@@ -86,17 +101,17 @@ def camera_control():
     return jsonify(data)
 
 
-@app.route('/record', methods=['POST'])
-@cross_origin()
-def record():
-    data = request.get_json()['record']
-    print(data)
-    if data:
-        m.run()
+@socket.on("record")
+def record(data):
+    rec = data['record']
+    if rec:
+        endpoint.set_drive(True)
     else:
-        m.terminate()
+        endpoint.set_drive(False)
     return jsonify(data)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, threaded=True, use_reloader=False, debug=False)
+    camera.start()
+    endpoint.start()
+    socket.run(app, host='0.0.0.0', port=5000, use_reloader=False, debug=True)

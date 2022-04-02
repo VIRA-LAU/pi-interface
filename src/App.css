@@ -1,11 +1,21 @@
 .title {
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: lightcoral;
+}
+
+.title h1 {
     text-align: center;
     font-size: x-large;
     font-weight: bold;
+    margin: auto;
     font-family: Calibri, sans-serif;
-    padding: 10px;
-    margin: 0 0 10px;
-    background-color: lightcoral;
+}
+
+.title div {
+    display: flex;
+    margin: auto 5px auto auto;
+    right: auto;
 }
 
 .video_feed {
@@ -17,7 +27,8 @@
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.35) 0 10px 20px;
 }
-.video_feed div{
+
+.video_feed div {
     display: flex;
 }
 

@@ -1,14 +1,25 @@
 import './App.css'
 import Video from "./components/Video";
 import Controls from "./components/Controls";
+import io from 'socket.io-client';
+import React from "react";
 
-export const IP = 'http://192.168.32.1:5000/'
+export const IP = 'http://192.168.43.143:5000/'
+export const socket = io(IP);
 
 const App = () => {
+    socket.on('connect', () => {
+        console.log('connected to socket');
+    })
+    socket.on('disconnect', () => {
+        console.log('disconnected from socket');
+    })
 
     return (
         <div>
-            <h1 className='title'>VIP-VIRA</h1>
+            <header className='title'>
+                <h1 className>VIP-VIRA</h1>
+            </header>
             <Video source={IP + "video_feed"}/>
             <Controls className='controls'/>
         </div>
